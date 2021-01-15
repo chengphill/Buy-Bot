@@ -1,0 +1,37 @@
+﻿@page "/"
+@inject StateContainer StateContainer
+
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+<h2>Change increment amount</h2>
+<p>Current increment: @currentIncrement</p>
+
+<EditForm Model="incrementModel" OnSubmit="@UpdateIncrement">
+    <ValidationSummary />
+    <InputNumber id="increment" @bind-Value="incrementModel.formIncrement" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+<Counter IncrementAmount="@currentIncrement" />
+
+@code
+{
+    public class IncrementModel
+    {
+        public int formIncrement { get; set; }
+    }
+
+    private IncrementModel incrementModel = new IncrementModel();
+
+    private int currentIncrement = 1;
+    private void UpdateIncrement()
+    {
+        currentIncrement = incrementModel.formIncrement;
+    }
+
+}

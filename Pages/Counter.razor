@@ -1,0 +1,40 @@
+﻿@page "/counter"
+@inject StateContainer StateContainer
+@implements IDisposable
+
+<h1>Counter</h1>
+<p>The current counter resets when you leave the page</p>
+<p>Current count: @currentCount</p>
+<p>State count: @StateContainer.CurrentCountState</p>
+
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="ResetCount">Reset</button>
+
+@code {
+    private int currentCount = 0;
+
+    [Parameter]
+    public int IncrementAmount { get; set; } = 1;
+
+    protected override void OnInitialized()
+    {
+        StateContainer.OnCountChange += StateHasChanged;
+    }
+
+    private void IncrementCount()
+    {
+        currentCount += IncrementAmount;
+        StateContainer.CurrentCountState += IncrementAmount;
+    }
+    private void ResetCount()
+    {
+        currentCount = 0;
+        StateContainer.CurrentCountState = 0;
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnCountChange -= StateHasChanged;
+    }
+}
